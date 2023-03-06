@@ -56,12 +56,12 @@ a.btn.btn-light{
 
 @include media-breakpoint-down(xl){
     .bg-image-2{
-        height: 165vh;
+        height: 175vh;
     }
 }
 
 @include media-breakpoint-down(lg){
     .bg-image-2{
-        height: 240vh;
+        height: 250vh;
     }
 }
