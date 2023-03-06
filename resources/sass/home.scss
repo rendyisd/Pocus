@@ -1,0 +1,44 @@
+@import 'app';
+
+.main-text-container{
+    height: 75vh;
+}
+
+.main-text-big{
+    color: white;
+    font-weight: 700;
+    font-size: 60px;
+    text-shadow: 5px 5px 3px rgb(80, 80, 80);
+    font-family: 'Roboto', sans-serif;
+}
+
+.main-text-sub{
+    color: rgb(180, 180, 180);
+    font-size: 18px;
+}
+
+.card{
+    width: 18rem;
+    height: 70vh;
+}
+
+.link-overlay{
+    z-index: 9999;
+}
+
+.card-img-top{
+    max-width: 200px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+}
+
+#card-tools-1{
+    background-color: $accent-blue;
+}
+
+@include media-breakpoint-down(md){
+    .main-text-big{
+        font-size: 42px;
+    }
+}
