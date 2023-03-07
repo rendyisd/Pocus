@@ -26,10 +26,6 @@ Generate a new application key
 
     php artisan key:generate
 
-Generate a new JWT authentication secret key
-
-    php artisan jwt:generate
-
 Run the database migrations (**Set the database connection in .env before migrating**)
 
     php artisan migrate
@@ -52,7 +48,6 @@ You can now access the server at http://localhost:8000
     npm install
     copy .env.example .env
     php artisan key:generate
-    php artisan jwt:generate 
     
 **Make sure you set the correct database connection information before running the migrations** [Environment variables](#environment-variables)
 
