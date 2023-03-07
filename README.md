@@ -49,6 +49,7 @@ You can now access the server at http://localhost:8000
     git clone https://github.com/rendyisd/Pocus.git
     cd Pocus
     composer install
+    npm install
     copy .env.example .env
     php artisan key:generate
     php artisan jwt:generate 
