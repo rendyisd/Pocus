@@ -17,7 +17,7 @@
             <h1 class="text-center main-text-big mb-4">
                 Tools
             </h1>
-            <div class="row d-flex justify-content-center align-content-center flex-column flex-sm-row">
+            <div class="row tools-section d-flex justify-content-center align-content-center flex-column flex-sm-row">
                 <div class="card col-lg-4 text-center mx-3 mb-5 p-0" id="card-tools-1">
                     <a href="#" class="link-overlay position-absolute d-block top-0 left-0 w-100 h-100"></a>
                     <div class="d-flex justify-content-center align-items-center w-100 h-75">

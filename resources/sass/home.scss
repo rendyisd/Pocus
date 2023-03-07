@@ -17,14 +17,14 @@
     font-size: 18px;
 }
 
-.card{
+.tools-section > .card{
     color: white;
     width: 18rem;
     height: 70vh;
     transition: transform 0.2s ease-in-out;
 }
 
-.card:hover{
+.tools-section > .card:hover{
     transform: scale(1.05);
 }
 
