@@ -15,15 +15,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/sass/home.scss', 'resources/js/app.js'])
+    @vite(
+        ['resources/sass/app.scss',
+        'resources/sass/home.scss',
+        'resources/js/app.js',
+        'resources/js/flashcards.js']
+    )
 </head>
 <body>
     <div id="app position-relative">
         <div class="bg-image"></div>
-    @if(Request::is('/'))
         <div class="bg-image-gradient"></div>
-        <div class="bg-image-2 sticky-top">
-    @endif
             
         </div>
         <nav class="navbar navbar-dark">

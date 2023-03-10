@@ -84,3 +84,56 @@
         font-size: 42px;
     }
 }
+
+// FLASHCARDS
+
+.card-set{
+    height: 90px;
+    border-radius: 10px;
+    box-shadow: 
+    1px 1px 0 #c3c3c3,
+    2px 2px 0 #c3c3c3,
+    3px 3px 0 #c3c3c3,
+    4px 4px 0 #c3c3c3,
+    5px 5px 0 #c3c3c3;
+}
+
+#createSet{
+    background-color: #dc0000;
+    box-shadow: 
+    1px 1px 0 #850000,
+    2px 2px 0 #850000,
+    3px 3px 0 #850000,
+    4px 4px 0 #850000,
+    5px 5px 0 #850000;
+}
+
+.card-click-animation{
+    transition: transform 0.2s ease-in-out;
+}
+
+.card-click-animation:hover{
+    transform: scale(1.01);
+}
+
+.card-click-animation.clicked{
+    transform: scale(0.99);
+}
+
+.flashcard-set{
+    border-left: 13px solid limegreen;
+    // Remove ^ later
+
+}
+
+.flashcard-set-desc{
+    font-size: 13px;
+    color: $secondary;
+}
+
+.flashcard-set-tag{
+    font-size: 13px;
+    color: white;
+    background-color: #929292;
+    width: fit-content;
+}
