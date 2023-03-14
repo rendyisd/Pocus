@@ -98,7 +98,8 @@
     5px 5px 0 #c3c3c3;
 }
 
-#createSet{
+#createSet,
+#addCat{
     background-color: #dc0000;
     box-shadow: 
     1px 1px 0 #850000,
@@ -136,4 +137,15 @@
     color: white;
     background-color: #929292;
     width: fit-content;
+}
+
+.card-select-cat{
+    height: 45px;
+    border-radius: 10px;
+    box-shadow: 
+    1px 1px 0 #c3c3c3,
+    2px 2px 0 #c3c3c3,
+    3px 3px 0 #c3c3c3,
+    4px 4px 0 #c3c3c3,
+    5px 5px 0 #c3c3c3;
 }

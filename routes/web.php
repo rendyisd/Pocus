@@ -23,5 +23,7 @@ Auth::routes();
 Route::middleware(['public'])->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/pomodoro', [App\Http\Controllers\ToolsCont\PomodoroController::class, 'index'])->name('pomodoro');   
-    Route::get('/flashcards', [App\Http\Controllers\ToolsCont\FlashcardsController::class, 'index'])->name('flashcards');   
 });
+
+// Auth needed
+Route::get('/flashcards', [App\Http\Controllers\ToolsCont\FlashcardsController::class, 'index'])->name('flashcards');
