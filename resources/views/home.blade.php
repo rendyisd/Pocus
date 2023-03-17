@@ -12,7 +12,7 @@
             <p class="text-center main-text-sub">Pocus gives you the tools you need to increase your productivity and keep your focus while doing your tasks.</p>
         </div>
     </div>
-    <div class="row pt-5">
+    <div class="row pt-5 mb-5">
         <div class="col">
             <h1 class="text-center main-text-big mb-4">
                 Tools

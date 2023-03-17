@@ -12,6 +12,21 @@
     font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
+::-webkit-scrollbar {
+    width: 6px;
+}
+  
+  /* Handle */
+::-webkit-scrollbar-thumb {
+    background: #c4c4c4;
+    border-radius: 3px;
+}
+  
+  /* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #a6a6a6;
+}
+
 body{
     background-color: black;
 }

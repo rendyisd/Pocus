@@ -1,5 +1,12 @@
 @import 'app';
 
+.btn-success{
+    --bs-btn-bg: limegreen;
+    --bs-btn-border-color: limegreen;
+    --bs-btn-hover-bg: #{shade-color(limegreen, 10%)};
+    --bs-btn-hover-border-color: #{shade-color(limegreen, 10%)};
+}
+
 .main-text-container{
     height: 75vh;
 }
@@ -81,11 +88,26 @@
 
 @include media-breakpoint-down(md){
     .main-text-big{
-        font-size: 42px;
+        font-size: 30px;
+    }
+}
+
+@include media-breakpoint-down(sm){
+    .main-text-big{
+        font-size: 26px;
+    }
+
+    .main-text-sub{
+        font-size: 16px;
     }
 }
 
 // FLASHCARDS
+
+.abs-center{
+    left: 50%;
+    transform: translateX(-50%);
+}
 
 .card-set{
     height: 90px;
@@ -114,11 +136,11 @@
 }
 
 .card-click-animation:hover{
-    transform: scale(1.01);
+    transform: scale(1.02);
 }
 
 .card-click-animation.clicked{
-    transform: scale(0.99);
+    transform: scale(0.98);
 }
 
 .flashcard-set{
@@ -139,7 +161,7 @@
     width: fit-content;
 }
 
-.card-select-cat{
+.card-create-cat{
     height: 45px;
     border-radius: 10px;
     box-shadow: 
@@ -148,4 +170,32 @@
     3px 3px 0 #c3c3c3,
     4px 4px 0 #c3c3c3,
     5px 5px 0 #c3c3c3;
+
+    --bs-btn-active-border-color: transparent;
+}
+
+.card-select-cat{
+    @extend .card-create-cat;
+
+    border-left: 13px solid black;
+
+    --bs-btn-active-border-color: #c3c3c3;
+    --bs-btn-hover-border-color: #c3c3c3;
+    --bs-btn-border-color: #c3c3c3;
+}
+
+.clr-field input{
+    height: 30px;
+    padding-left: 0.5rem;
+    cursor: pointer !important;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.clr-field button{
+    width: 22px !important;
+    height: 22px !important;
+    border-radius: 5px;
+    right: 5px !important;
 }
