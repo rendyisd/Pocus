@@ -15,14 +15,28 @@ function submitFormWithoutRedirect(form, successCallback, errorCallback) {
             }
         },
         error: function(xhr) {
-            errorCallback(xhr.responseText);
+            errorCallback(xhr.responseJSON.message);
         }
     });
+}
+
+function modalFadeChange(current, next) {
+    $(current).addClass('hidden-fade');
+
+    setTimeout(() => {
+        $(current).addClass('d-none');
+        $(next).removeClass('d-none');
+        setTimeout(() =>{
+            $(next).removeClass('hidden-fade');
+        }, 50);
+    }, 300);
 }
 
 $(function () {
     let modalPageSequence = ['.fc-create-set', '.fc-select-cat', '.fc-create-cat'];
     let modalPagePointer = 0;
+
+    let isTimeoutRunning = false;
 
     $(document).on('click', '.card-click-animation', function() {
         $(this).addClass("clicked");
@@ -32,51 +46,107 @@ $(function () {
     });
 
     $(document).on('click', '.backBtn', function() {
-        $(modalPageSequence[modalPagePointer]).addClass('d-none');
+        modalFadeChange(modalPageSequence[modalPagePointer], modalPageSequence[modalPagePointer-1]);
         modalPagePointer = (modalPagePointer - 1) < 0 ? 0 : modalPagePointer - 1;
-        $(modalPageSequence[modalPagePointer]).removeClass('d-none');
     });
 
     $(document).on('click', '#selectCat', function() {
-        $('.fc-select-cat').removeClass('d-none');
-        $('.fc-create-set').addClass('d-none');
-
+        modalFadeChange('.fc-create-set', '.fc-select-cat');
         modalPagePointer = 1;
     });
 
     $(document).on('click', '#addCat', function() {
-        $('.fc-create-cat').removeClass('d-none');
-        $('.fc-select-cat').addClass('d-none');
-
+        modalFadeChange('.fc-select-cat', '.fc-create-cat');
         modalPagePointer = 2;
     });
 
-    $('#addCategoryForm').on('submit', function(event) {
+    $('#addSetForm').on('submit', function(event) {
         event.preventDefault();
 
         var form = $(this);
 
-        submitFormWithoutRedirect(form,
-        function(response) {
-            var newCategory = `
-            <button type="button" class="btn w-100 mb-3 card-select-cat card-click-animation" style="border-left: 13px solid ${response.category['color']};">
-                <div class="d-flex align-items-center justify-content-between w-100">
-                    <div class="d-inline-block fw-bold flex-grow-1">${response.category['category']}</div>
-                    <i class="fa-solid fa-angle-right my-auto"></i>
-                </div>
-            </button>
-            `;
+        submitFormWithoutRedirect(
+            form,
+            function(response) {
+                var newSet = `
+                    <div class="row mb-3 bg-light card-click-animation card-set" style="cursor: pointer; border-left: 13px solid ${response.category['color']};">
+                        <div class="col-9 d-flex flex-column justify-content-center">
+                            <h4 class="fw-bold m-0">${response.set['name']}</h4>
+                            <p class="m-0 flashcard-set-desc mb-1">${response.set['description']}</p>
+                            <div class="d-inline-block rounded-pill px-3 flashcard-set-tag">${response.category['category']}</div>
+                        </div>
+                        <div class="col-3 d-flex justify-content-end my-auto">
+                            <h4 class="fw-bold m-0">45</h4>
+                            <img src="${cardSvgUrl}" style="height: 30px;">
+                        </div>
+                    </div>
+                `;
 
-            $('.fc-select-cat.modal-body').append(newCategory);
+                $('.flashcards-sets-container').append(newSet);
 
-            $('#addCatSuccess').addClass('show');
-            setTimeout(function () {
-                $('#addCatSuccess').removeClass('show');
-            }, 3000);
-        },
-        function(error) {
-            alert('Error adding category: ' + error);
-        });
+                // $('#addCardSet').modal('hide');
+            },
+            function(error) {
+                console.log(error);
+            }
+        )
+    });
+
+    $('#addCategoryForm').on('submit', function(event) {
+        event.preventDefault();
+        $('#createCategoryBtn').prop('disabled', true);
+
+        var form = $(this);
+
+        submitFormWithoutRedirect(
+            form,
+            function(response) {
+                $("#setCategoryColor").val('#000000');
+                document.querySelector('#setCategoryColor').dispatchEvent(new Event('input', { bubbles: true }));
+
+                $('#createCategoryBtn').prop('disabled', false);
+
+                var newCategory = `
+                    <button type="button" class="btn w-100 mb-3 card-select-cat card-click-animation" style="border-left: 13px solid ${response.category['color']};" data-categoryId=${response.category['id']}>
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <div class="d-inline-block fw-bold flex-grow-1 category-name">${response.category['category']}</div>
+                            <i class="fa-solid fa-angle-right my-auto"></i>
+                        </div>
+                    </button>
+                `;
+
+                $('.fc-select-cat.modal-body').append(newCategory);
+                
+                $('#addCatSuccess').addClass('show');
+                setTimeout(function () {
+                    $('#addCatSuccess').removeClass('show');
+                }, 3000);
+            },
+            function(error) {
+                $('#createCategoryBtn').prop('disabled', false);
+                if(!isTimeoutRunning){
+                    isTimeoutRunning = true;
+                    $('#errorMessageText').text(error);
+                    $('#addCatError').addClass('show');
+                    setTimeout(function () {
+                        isTimeoutRunning = false;
+                        $('#addCatError').removeClass('show');
+                    }, 3000);
+                }
+            }
+        );
+    });
+
+    $('.fc-select-cat.modal-body').on('click', '.card-select-cat', function() {
+        var catId = $(this).attr('data-categoryId');
+        var catName = $(this).find('.category-name').text();
+        var catColor = $(this).css('border-left-color');
+
+        $('#setCat').val(catId);
+        $('#selectCat').find('.fw-bold').text(catName);
+        $('#selectCat').css('border-left-color', catColor);
+
+        $('#oneOfBackBtn').trigger('click');
     });
 
     new Coloris({

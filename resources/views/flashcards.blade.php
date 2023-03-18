@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container flashcards-sets-container">
     <h1 class="text-center main-text-big mb-4 fs-1">
         Flashcards
     </h1>
@@ -21,49 +21,62 @@
     </div>
 
     {{-- CREATE SET MODAL --}}
-    <div class="modal fade" id="addCardSet" tabindex="-1" aria-labelledby="addCardSetLabel" aria-hidden="true">
+    <div class="modal fade coloris-parent" id="addCardSet" tabindex="-1" aria-labelledby="addCardSetLabel" aria-hidden="true">
         {{-- Success alerts --}}
-        <div class="alert alert-success d-flex align-items-center position-absolute abs-center fade" id="addCatSuccess" role="alert" style="width: 330px">
+        <div class="alert alert-success d-flex align-items-center position-absolute abs-center fade" id="addCatSuccess" role="alert" style="width: 330px; z-index: 9999;">
             <i class="fa-solid fa-square-check fs-3 me-2"></i>
             <div>
                 Category has been created successfully
             </div>
         </div>
+
+        {{-- Error alerts --}}
+        <div class="alert alert-danger d-flex align-items-center position-absolute abs-center fade" id="addCatError" role="alert" style="width: 310px; z-index: 9998;">
+            <i class="fa-solid fa-triangle-exclamation fs-3 me-2"></i>
+            <div id="errorMessageText">
+                Error!
+            </div>
+        </div>
         
 
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 {{-- HEADER --}}
                 <div class="modal-header">
 
-                    <h5 class="fc-create-set modal-title fw-bold" id="addCardSetLabel">Create new card set</h5>
-                    <h5 class="fc-select-cat modal-title fw-bold d-none" id="addCardSetLabel">Select category</h5>
-                    <h5 class="fc-create-cat modal-title fw-bold d-none" id="addCardSetLabel">Create category</h5>
+                    <h5 class="fc-create-set modal-title fw-bold fade-element" id="addCardSetLabel">Create new card set</h5>
+                    <h5 class="fc-select-cat modal-title fw-bold d-none fade-element hidden-fade" id="addCardSetLabel">Select category</h5>
+                    <h5 class="fc-create-cat modal-title fw-bold d-none fade-element hidden-fade" id="addCardSetLabel">Create category</h5>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 {{-- BODY --}}
-                <div class="fc-create-set modal-body">
+                <div class="fc-create-set modal-body fade-element">
 
-                    <form action="" method="post">
+                    <form action="{{ route('createSetSubmit') }}" method="post" id="addSetForm">
                         @csrf
                         <label for="setName" class="form-label fw-bold">Name</label>
-                        <input type="text" id="setName" class="form-control" aria-describedby="setNameHelp" maxlength="16" autocomplete="off">
+                        <input type="text" id="setName" class="form-control" aria-describedby="setNameHelp" maxlength="16" autocomplete="off" name="setName">
                         <div id="setNameHelp" class="form-text">
                             Must not exceed 16 characters and must not contain special characters or emoji.
                         </div>
+
                         <br>
+                        
                         <label for="setDesc" class="form-label fw-bold">Description</label>
-                        <input type="text" id="setDesc" class="form-control" aria-describedby="setDescHelp" maxlength="50" autocomplete="off">
+                        <input type="text" id="setDesc" class="form-control" aria-describedby="setDescHelp" maxlength="50" autocomplete="off" name="setDesc">
                         <div id="setDescHelp" class="form-text">
-                            Must not exceed 50 characters.
+                            This field is <span class="fw-bold">optional</span>. Must not exceed 50 characters.
                         </div>
+
                         <br>
+
                         <label for="setCat" class="form-label fw-bold">Category</label>
-                        <button type="button" class="btn w-100 mb-3 card-select-cat card-click-animation" id="selectCat" style="border-left: 13px solid limegreen;">
+                        <input type="hidden" id="setCat" name="setCat">
+                        <button type="button" class="btn w-100 mb-3 card-select-cat card-click-animation" id="selectCat" style="border-left: 13px solid black;">
                             <div class="d-flex align-items-center justify-content-between w-100">
-                                <div class="d-inline-block fw-bold flex-grow-1">Lorem</div>
+                                <div class="d-inline-block fw-bold flex-grow-1">Select category</div>
                                 <i class="fa-solid fa-angle-right my-auto"></i>
                             </div>
                         </button>
@@ -71,7 +84,7 @@
 
                 </div>
 
-                <div class="fc-select-cat modal-body d-none">
+                <div class="fc-select-cat modal-body d-none fade-element hidden-fade">
 
                     <button type="button" class="btn text-white w-100 mb-3 card-create-cat card-click-animation" id="addCat">
                         <h6 class="fw-bold m-0">+</h6>
@@ -79,9 +92,9 @@
                     </button>
 
                     @foreach ($fcCategory as $category)
-                        <button type="button" class="btn w-100 mb-3 card-select-cat card-click-animation" style="border-left: 13px solid {{ $category->color }};">
+                        <button type="button" class="btn w-100 mb-3 card-select-cat card-click-animation" style="border-left: 13px solid {{ $category->color }};" data-categoryId="{{ $category->id }}">
                             <div class="d-flex align-items-center justify-content-between w-100">
-                                <div class="d-inline-block fw-bold flex-grow-1">{{ $category->category }}</div>
+                                <div class="d-inline-block fw-bold flex-grow-1 category-name">{{ $category->category }}</div>
                                 <i class="fa-solid fa-angle-right my-auto"></i>
                             </div>
                         </button>
@@ -89,7 +102,7 @@
 
                 </div>
 
-                <div class="fc-create-cat coloris-parent modal-body d-none">
+                <div class="fc-create-cat modal-body d-none fade-element hidden-fade">
                     <form action="{{ route('createCategorySubmit') }}" method="post" id="addCategoryForm">
                         @csrf
                         <label for="setCategoryName" class="form-label fw-bold">Category</label>
@@ -101,15 +114,15 @@
                 </div>
 
                 {{-- FOOTER --}}
-                <div class="fc-create-set modal-footer">
-                    <button type="button" class="btn btn-success" id="createSetBtn">Create</button>
+                <div class="fc-create-set modal-footer fade-element">
+                    <button type="submit" form="addSetForm" class="btn btn-success" id="createSetBtn">Create</button>
                 </div>
 
-                <div class="fc-select-cat modal-footer d-none">
-                    <button type="button" class="btn btn-danger me-auto backBtn">Back</button>
+                <div class="fc-select-cat modal-footer d-none fade-element hidden-fade">
+                    <button type="button" class="btn btn-danger me-auto backBtn" id="oneOfBackBtn">Back</button>
                 </div>
 
-                <div class="fc-create-cat modal-footer d-none">
+                <div class="fc-create-cat modal-footer d-none fade-element hidden-fade">
                     <button type="button" class="btn btn-danger me-auto backBtn">Back</button>
                     <button type="submit" form="addCategoryForm" class="btn btn-success" id="createCategoryBtn">Create</button>
                 </div>
@@ -118,21 +131,23 @@
     </div>
     {{-- CREATE SET MODAL --}}
 
-    <div class="row mb-3 card-click-animation" style="cursor: pointer;">
-        <div class="col d-flex flex-column justify-content-center bg-light card-set flashcard-set">
-            <div class="row">
-                <div class="col-9">
-                    <h4 class="fw-bold m-0">English</h4>
-                    <p class="m-0 flashcard-set-desc mb-1">This is a description of this set</p>
-                    <div class="d-inline-block rounded-pill px-3 flashcard-set-tag">Language</div>
-                </div>
-                <div class="col-3 m-auto d-flex justify-content-end">
-                    <h4 class="fw-bold m-0">45</h4>
-                    <img src="{{ asset('images/home-images/card-black.svg') }}" style="height: 30px;">
-                </div>
+    @foreach ($flashcards as $flashcard)
+        <div class="row mb-3 bg-light card-click-animation card-set" style="cursor: pointer; border-left: 13px solid {{ $flashcard->color }};">
+            <div class="col-9 d-flex flex-column justify-content-center">
+                <h4 class="fw-bold m-0">{{ $flashcard->name }}</h4>
+                <p class="m-0 flashcard-set-desc mb-1">{{ $flashcard->description }}</p>
+                <div class="d-inline-block rounded-pill px-3 flashcard-set-tag">{{ $flashcard->category }}</div>
+            </div>
+            <div class="col-3 d-flex justify-content-end my-auto">
+                <h4 class="fw-bold m-0">45</h4>
+                <img src="{{ asset('images/home-images/card-black.svg') }}" style="height: 30px;">
             </div>
         </div>
-    </div>
+    @endforeach
 </div>
 @endsection
+
+<script>
+    var cardSvgUrl = `{{ URL::asset('images/home-images/card-black.svg') }}`;
+</script>
 

@@ -29,3 +29,4 @@ Route::middleware(['public'])->group(function () {
 Route::get('/flashcards', [App\Http\Controllers\ToolsCont\FlashcardsController::class, 'index'])->name('flashcards');
 
 Route::post('/flashcards/add-category-submit', [App\Http\Controllers\ToolsCont\FlashcardsController::class, 'addCategorySubmit'])->name('createCategorySubmit');
+Route::post('/flashcards/add-set-submit', [App\Http\Controllers\ToolsCont\FlashcardsController::class, 'addSetSubmit'])->name('createSetSubmit');

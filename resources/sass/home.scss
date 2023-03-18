@@ -143,12 +143,6 @@
     transform: scale(0.98);
 }
 
-.flashcard-set{
-    border-left: 13px solid limegreen;
-    // Remove ^ later
-
-}
-
 .flashcard-set-desc{
     font-size: 13px;
     color: $secondary;
@@ -198,4 +192,13 @@
     height: 22px !important;
     border-radius: 5px;
     right: 5px !important;
+}
+
+.fade-element{
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.fade-element.hidden-fade{
+    opacity: 0 !important;
 }
