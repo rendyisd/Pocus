@@ -63,3 +63,74 @@ a.btn.btn-light{
 .dropdown-item:hover{
     background-color: rgba(0, 0, 0, 0.4) !important;
 }
+
+.custom-login-btn{
+    width: 80px;
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    font-weight: 700;
+
+    --bs-btn-hover-border-color: white; 
+    --bs-btn-hover-color: #007bff;
+    --bs-btn-hover-bg: white;
+
+    --bs-btn-active-color: white;
+    --bs-btn-active-bg: limegreen;
+    --bs-btn-active-border-color: limegreen;
+}
+
+// Login Form
+
+.custom-login-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+
+    color: white;
+    background-color: transparent;
+    border-radius: 20px;
+    backdrop-filter: blur(30px);
+    box-shadow: 0 0 40px black;
+    
+    a{
+        color: white;
+        text-decoration: none;
+        transition: .3s ease-in-out;
+    }
+    a:hover{
+        color: $dark-blue;
+    }
+}
+
+.custom-submit-btn{
+    background-color: $primary-blue;
+    color: white;
+    width: 100px;
+    transition: .3s ease-in-out;
+
+    --bs-btn-hover-color: white;
+    --bs-btn-hover-bg: #00a500;
+    --bs-btn-hover-border-color: #00a500;
+
+    --bs-btn-active-color: white;
+    --bs-btn-active-bg: #00a500;
+    --bs-btn-active-border-color: #00a500;
+}
+
+@include media-breakpoint-down(lg){
+    .custom-login-box{
+        width: 70%;
+    }
+}
+
+@include media-breakpoint-down(md){
+    .custom-login-box{
+        width: 90%;
+    }
+}
+
+// Register Form

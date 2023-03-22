@@ -30,3 +30,8 @@ Route::get('/flashcards', [App\Http\Controllers\ToolsCont\FlashcardsController::
 
 Route::post('/flashcards/add-category-submit', [App\Http\Controllers\ToolsCont\FlashcardsController::class, 'addCategorySubmit'])->name('createCategorySubmit');
 Route::post('/flashcards/add-set-submit', [App\Http\Controllers\ToolsCont\FlashcardsController::class, 'addSetSubmit'])->name('createSetSubmit');
+
+
+Route::get('/flashcards/{flashcard}', [App\Http\Controllers\ToolsCont\FlashcardsController::class, 'show'])->name('flashcards.show');
+
+Route::post('/flashcards/add-card-submit', [App\Http\Controllers\ToolsCont\FlashcardsController::class, 'addCardSubmit'])->name('createCardSubmit');

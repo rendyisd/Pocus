@@ -145,6 +145,7 @@
 
 .flashcard-set-desc{
     font-size: 13px;
+    min-height: 20px;
     color: $secondary;
 }
 
@@ -201,4 +202,23 @@
 
 .fade-element.hidden-fade{
     opacity: 0 !important;
+}
+
+.flashcard-open-url{
+    text-decoration: none;
+    color: inherit;
+
+    &:hover{
+        color: inherit;
+    }
+}
+
+.flashcards-card{
+    @extend .card-set;
+    height: fit-content;
+}
+
+.add-card-textarea{
+    resize: none;
+    height: 80px;
 }

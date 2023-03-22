@@ -20,24 +20,24 @@
         </div>
     </div>
 
+    {{-- Success alerts --}}
+    <div class="alert alert-success d-flex align-items-center position-absolute position-fixed top-0 fade abs-center" id="addCatSuccess" role="alert" style="z-index: 9999;">
+        <i class="fa-solid fa-square-check fs-3 me-2"></i>
+        <div id="successMessageText">
+            Success!
+        </div>
+    </div>
+
+    {{-- Error alerts --}}
+    <div class="alert alert-danger d-flex align-items-center position-absolute position-fixed top-0 fade abs-center" id="addCatError" role="alert" style="z-index: 9998;">
+        <i class="fa-solid fa-triangle-exclamation fs-3 me-2"></i>
+        <div id="errorMessageText">
+            Error!
+        </div>
+    </div>
+
     {{-- CREATE SET MODAL --}}
     <div class="modal fade coloris-parent" id="addCardSet" tabindex="-1" aria-labelledby="addCardSetLabel" aria-hidden="true">
-        {{-- Success alerts --}}
-        <div class="alert alert-success d-flex align-items-center position-absolute abs-center fade" id="addCatSuccess" role="alert" style="width: 330px; z-index: 9999;">
-            <i class="fa-solid fa-square-check fs-3 me-2"></i>
-            <div>
-                Category has been created successfully
-            </div>
-        </div>
-
-        {{-- Error alerts --}}
-        <div class="alert alert-danger d-flex align-items-center position-absolute abs-center fade" id="addCatError" role="alert" style="width: 310px; z-index: 9998;">
-            <i class="fa-solid fa-triangle-exclamation fs-3 me-2"></i>
-            <div id="errorMessageText">
-                Error!
-            </div>
-        </div>
-        
 
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -48,7 +48,7 @@
                     <h5 class="fc-select-cat modal-title fw-bold d-none fade-element hidden-fade" id="addCardSetLabel">Select category</h5>
                     <h5 class="fc-create-cat modal-title fw-bold d-none fade-element hidden-fade" id="addCardSetLabel">Create category</h5>
 
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeModalBtn"></button>
                 </div>
 
                 {{-- BODY --}}
@@ -132,22 +132,27 @@
     {{-- CREATE SET MODAL --}}
 
     @foreach ($flashcards as $flashcard)
-        <div class="row mb-3 bg-light card-click-animation card-set" style="cursor: pointer; border-left: 13px solid {{ $flashcard->color }};">
-            <div class="col-9 d-flex flex-column justify-content-center">
-                <h4 class="fw-bold m-0">{{ $flashcard->name }}</h4>
-                <p class="m-0 flashcard-set-desc mb-1">{{ $flashcard->description }}</p>
-                <div class="d-inline-block rounded-pill px-3 flashcard-set-tag">{{ $flashcard->category }}</div>
+        <a href="{{ route('flashcards.show', ['flashcard' => $flashcard->id]) }}" class="flashcard-open-url">
+            <div class="row mb-3 bg-light card-click-animation card-set" style="border-left: 13px solid {{ $flashcard->color }};">
+                <div class="col-9 d-flex flex-column justify-content-center">
+                    <h4 class="fw-bold m-0">{{ $flashcard->name }}</h4>
+                    <p class="m-0 flashcard-set-desc mb-1">{{ $flashcard->description }}</p>
+                    <div class="d-inline-block rounded-pill px-3 flashcard-set-tag">{{ $flashcard->category }}</div>
+                </div>
+                <div class="col-3 d-flex justify-content-end my-auto">
+                    <h4 class="fw-bold m-0">
+                        {{ $flashcard->flashcards_cards()->count() }}
+                    </h4>
+                    <img src="{{ asset('images/home-images/card-black.svg') }}" style="height: 30px;">
+                </div>
             </div>
-            <div class="col-3 d-flex justify-content-end my-auto">
-                <h4 class="fw-bold m-0">45</h4>
-                <img src="{{ asset('images/home-images/card-black.svg') }}" style="height: 30px;">
-            </div>
-        </div>
+        </a>
     @endforeach
 </div>
 @endsection
 
 <script>
     var cardSvgUrl = `{{ URL::asset('images/home-images/card-black.svg') }}`;
+    var fcUrl = `{{ route('flashcards') }}`;
 </script>
 

@@ -1,5 +1,5 @@
-import './bootstrap';
 import $ from 'jquery';
+import './bootstrap';
 
 function submitFormWithoutRedirect(form, successCallback, errorCallback) {
     $.ajax({
@@ -69,25 +69,38 @@ $(function () {
             form,
             function(response) {
                 var newSet = `
-                    <div class="row mb-3 bg-light card-click-animation card-set" style="cursor: pointer; border-left: 13px solid ${response.category['color']};">
-                        <div class="col-9 d-flex flex-column justify-content-center">
-                            <h4 class="fw-bold m-0">${response.set['name']}</h4>
-                            <p class="m-0 flashcard-set-desc mb-1">${response.set['description']}</p>
-                            <div class="d-inline-block rounded-pill px-3 flashcard-set-tag">${response.category['category']}</div>
+                    <a href="${fcUrl+`/${response.set['id']}`}" class="flashcard-open-url">
+                        <div class="row mb-3 bg-light card-click-animation card-set" style="cursor: pointer; border-left: 13px solid ${response.category['color']};">
+                            <div class="col-9 d-flex flex-column justify-content-center">
+                                <h4 class="fw-bold m-0">${response.set['name']}</h4>
+                                <p class="m-0 flashcard-set-desc mb-1">${response.set['description']}</p>
+                                <div class="d-inline-block rounded-pill px-3 flashcard-set-tag">${response.category['category']}</div>
+                            </div>
+                            <div class="col-3 d-flex justify-content-end my-auto">
+                                <h4 class="fw-bold m-0">0</h4>
+                                <img src="${cardSvgUrl}" style="height: 30px;">
+                            </div>
                         </div>
-                        <div class="col-3 d-flex justify-content-end my-auto">
-                            <h4 class="fw-bold m-0">45</h4>
-                            <img src="${cardSvgUrl}" style="height: 30px;">
-                        </div>
-                    </div>
+                    </a>
                 `;
 
                 $('.flashcards-sets-container').append(newSet);
 
-                // $('#addCardSet').modal('hide');
+                $('#closeModalBtn').trigger('click');
+
+                $('#successMessageText').text("Flashcard has been created successfully");
+                
+                $('#addCatSuccess').addClass('show');
+                setTimeout(function () {
+                    $('#addCatSuccess').removeClass('show');
+                }, 3000);
             },
             function(error) {
-                console.log(error);
+                $('#errorMessageText').text(error);
+                $('#addCatError').addClass('show');
+                setTimeout(function () {
+                    $('#addCatError').removeClass('show');
+                }, 3000);
             }
         )
     });
@@ -116,6 +129,8 @@ $(function () {
                 `;
 
                 $('.fc-select-cat.modal-body').append(newCategory);
+
+                $('#successMessageText').text("Category has been created successfully");
                 
                 $('#addCatSuccess').addClass('show');
                 setTimeout(function () {
@@ -147,6 +162,45 @@ $(function () {
         $('#selectCat').css('border-left-color', catColor);
 
         $('#oneOfBackBtn').trigger('click');
+    });
+
+    $('#addCardForm').on('submit', function(event) {
+        event.preventDefault();
+        var form = $(this);
+
+        submitFormWithoutRedirect(
+            form,
+            function(response) {
+                var newCard = `
+                    <div class="row mb-3 bg-light card-click-animation flashcards-card" style="border-left: 13px solid ${response.catColor};">
+                        <div class="col d-grid gap-2 py-2">
+                            <p class="fw-bold m-0">
+                                ${response.card['term']}
+                            </p>
+                            <p class="m-0 flashcard-set-desc">
+                                ${response.card['definition']}
+                            </p>
+                        </div>
+                    </div>
+                `;
+
+                $('.fc-card-container').append(newCard);
+
+                $('#successMessageText').text("Card has been added!");
+                
+                $('#addCardSuccess').addClass('show');
+                setTimeout(function () {
+                    $('#addCardSuccess').removeClass('show');
+                }, 3000);
+            },
+            function(error) {
+                $('#errorMessageText').text(error);
+                $('#addCardError').addClass('show');
+                setTimeout(function () {
+                    $('#addCardError').removeClass('show');
+                }, 3000);
+            }
+        );
     });
 
     new Coloris({

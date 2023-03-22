@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\ToolsCont;
 
 use App\Http\Controllers\Controller;
+use App\Models\FlashcardsCard;
 use App\Models\FlashcardsCategory;
 use App\Models\FlashcardsSet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class FlashcardsController extends Controller
 {
@@ -20,12 +22,37 @@ class FlashcardsController extends Controller
     {
         $loggedInUser = Auth::user();
 
-        $userFc = FlashcardsSet::from('flashcards_sets as fcs')
+        $userFc = FlashcardsSet::select('fcs.id', 'fcs.name', 'fcs.description', 'fcc.category', 'fcc.color')
+                                ->from('flashcards_sets as fcs')
                                 ->where('fcs.user_id', $loggedInUser->id)
                                 ->join('flashcards_categories as fcc', 'fcs.category_id', '=', 'fcc.id')->get();
+
         $userFcCategory = FlashcardsCategory::where('user_id', $loggedInUser->id)->get();
 
-        return view('flashcards', ['fcCategory' => $userFcCategory, 'flashcards' => $userFc]);
+        return view('fc_views.flashcards', 
+        [
+            'fcCategory' => $userFcCategory,
+            'flashcards' => $userFc
+        ]);
+    }
+
+    public function show(FlashcardsSet $flashcard)
+    {
+        if (Auth::user()->id !== $flashcard->user_id) {
+            abort(403);
+        }
+
+        $category = FlashcardsCategory::select('color')
+                                        ->where('id', $flashcard->category_id)->get()->first();
+        
+        $cardInSet = FlashcardsCard::where('set_id', $flashcard->id)->get();
+        
+        return view('fc_views.flashcards_card',
+        [
+            'flashcard' => $flashcard,
+            'category' => $category,
+            'cards' => $cardInSet,
+        ]);
     }
 
     public function addSetSubmit(Request $request)
@@ -109,6 +136,31 @@ class FlashcardsController extends Controller
         return response()->json([
             'success' => true,
             'category' => $flashcards_category
+        ]);
+    }
+
+    public function addCardSubmit(Request $request)
+    {
+        $flashcards_card = new FlashcardsCard();
+
+        $validatedData = $request->validate([
+            'setTerm' => 'required|max:255',
+            'setDefinition' => 'required|max:255',
+            'setSetId' => 'required',
+            'setCardColor' => 'required'
+        ]);
+
+        $flashcards_card->term = $validatedData['setTerm'];
+        $flashcards_card->definition = $validatedData['setDefinition'];
+        $flashcards_card->set_id = $validatedData['setSetId'];
+
+        $flashcards_card->save();
+        $flashcards_card->refresh();
+
+        return response()->json([
+            'success' => true,
+            'card' => $flashcards_card,
+            'catColor' => $validatedData['setCardColor']
         ]);
     }
 }

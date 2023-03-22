@@ -41,13 +41,7 @@
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
-                                <a class="btn btn-light me-2" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                        @endif
-
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="btn btn-light" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="btn me-2 custom-login-btn" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                         @endif
                     @else

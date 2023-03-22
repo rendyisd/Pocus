@@ -17,4 +17,9 @@ class FlashcardsSet extends Model
         'category_id',
         'user_id'
     ];
+
+    public function flashcards_cards()
+    {
+        return $this->hasMany(FlashcardsCard::class, 'set_id');
+    }
 }
