@@ -120,8 +120,18 @@
     5px 5px 0 #c3c3c3;
 }
 
-#createSet,
 #addCat{
+    background-color: rgb(0, 190, 0);
+    box-shadow: 
+    1px 1px 0 rgb(0, 130, 0),
+    2px 2px 0 rgb(0, 130, 0),
+    3px 3px 0 rgb(0, 130, 0),
+    4px 4px 0 rgb(0, 130, 0),
+    5px 5px 0 rgb(0, 130, 0);
+}
+
+#createSet,
+#deleteCat{
     background-color: #dc0000;
     box-shadow: 
     1px 1px 0 #850000,
@@ -221,4 +231,12 @@
 .add-card-textarea{
     resize: none;
     height: 80px;
+}
+
+.delete-category-checkbox:not(:checked):disabled{
+    background-color: red;
+}
+
+.form-check:has(> .delete-category-checkbox:not(:checked):disabled){
+    cursor: not-allowed;
 }

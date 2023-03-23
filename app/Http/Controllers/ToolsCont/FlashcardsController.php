@@ -163,4 +163,17 @@ class FlashcardsController extends Controller
             'catColor' => $validatedData['setCardColor']
         ]);
     }
+
+    public function deleteCategorySubmit(Request $request){
+        $idsToDelete = $request->input('deleteId');
+
+        foreach($idsToDelete as $id){
+            $model = FlashcardsCategory::find($id);
+            $model->delete();
+        }
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
 }

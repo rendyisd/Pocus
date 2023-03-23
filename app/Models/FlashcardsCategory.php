@@ -16,4 +16,9 @@ class FlashcardsCategory extends Model
         'color',
         'user_id'
     ];
+
+    public function flashcards_sets()
+    {
+        return $this->hasMany(FlashcardsSet::class, 'category_id');
+    }
 }

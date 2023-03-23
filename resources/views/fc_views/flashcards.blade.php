@@ -86,19 +86,41 @@
 
                 <div class="fc-select-cat modal-body d-none fade-element hidden-fade">
 
-                    <button type="button" class="btn text-white w-100 mb-3 card-create-cat card-click-animation" id="addCat">
-                        <h6 class="fw-bold m-0">+</h6>
-                        <h6 class="fw-bold m-0">Create Category</h6>
-                    </button>
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn text-white w-100 mb-3 card-create-cat card-click-animation" id="addCat">
+                                <h6 class="fw-bold m-0">+</h6>
+                                <h6 class="fw-bold m-0">Create Category</h6>
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn text-white w-100 mb-3 card-create-cat card-click-animation" id="deleteCat">
+                                <h6 class="fw-bold m-0">+</h6>
+                                <h6 class="fw-bold m-0">Delete Category</h6>
+                            </button>
+                        </div>
+                    </div>
 
-                    @foreach ($fcCategory as $category)
-                        <button type="button" class="btn w-100 mb-3 card-select-cat card-click-animation" style="border-left: 13px solid {{ $category->color }};" data-categoryId="{{ $category->id }}">
-                            <div class="d-flex align-items-center justify-content-between w-100">
-                                <div class="d-inline-block fw-bold flex-grow-1 category-name">{{ $category->category }}</div>
-                                <i class="fa-solid fa-angle-right my-auto"></i>
+                    <form action="{{ route('deleteCategorySubmit') }}" method="post" class="m-0" id="deleteCategoryForm">
+                        @csrf
+                        @foreach ($fcCategory as $category)
+                            <div class="row mb-3 delete-category-container" data-categoryId="{{ $category->id }}">
+                                <div class="col-auto pe-0 d-flex align-items-center justify-content-center d-none delete-category-checkbox-container">
+                                    <div class="form-check d-flex align-items-center justify-content-center">
+                                        <input class="form-check-input delete-category-checkbox" type="checkbox" value="{{ $category->id }}" name="idForDeletion[]" @if($category->flashcards_sets()->count() != 0) disabled @endif>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn w-100 card-select-cat card-click-animation" style="border-left: 13px solid {{ $category->color }};" data-categoryId="{{ $category->id }}">
+                                        <div class="d-flex align-items-center justify-content-between w-100">
+                                            <div class="d-inline-block fw-bold flex-grow-1 category-name">{{ $category->category }}</div>
+                                            <i class="fa-solid fa-angle-right my-auto"></i>
+                                        </div>
+                                    </button>
+                                </div>
                             </div>
-                        </button>
-                    @endforeach
+                        @endforeach
+                    </form>
 
                 </div>
 
@@ -119,11 +141,12 @@
                 </div>
 
                 <div class="fc-select-cat modal-footer d-none fade-element hidden-fade">
-                    <button type="button" class="btn btn-danger me-auto backBtn" id="oneOfBackBtn">Back</button>
+                    <button type="button" class="btn btn-primary me-auto backBtn" id="oneOfBackBtn">Back</button>
+                    <button type="submit" form="deleteCategoryForm" class="btn btn-danger d-none" id="deleteCategoryBtn">Delete</button>
                 </div>
 
                 <div class="fc-create-cat modal-footer d-none fade-element hidden-fade">
-                    <button type="button" class="btn btn-danger me-auto backBtn">Back</button>
+                    <button type="button" class="btn btn-primary me-auto backBtn">Back</button>
                     <button type="submit" form="addCategoryForm" class="btn btn-success" id="createCategoryBtn">Create</button>
                 </div>
             </div>
