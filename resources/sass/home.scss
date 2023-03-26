@@ -86,22 +86,6 @@
     7px 7px 0 #3b7f4c;
 }
 
-@include media-breakpoint-down(md){
-    .main-text-big{
-        font-size: 30px;
-    }
-}
-
-@include media-breakpoint-down(sm){
-    .main-text-big{
-        font-size: 26px;
-    }
-
-    .main-text-sub{
-        font-size: 16px;
-    }
-}
-
 // FLASHCARDS
 
 .abs-center{
@@ -239,4 +223,67 @@
 
 .form-check:has(> .delete-category-checkbox:not(:checked):disabled){
     cursor: not-allowed;
+}
+
+.preview-btn{
+    border-radius: 20px;
+    z-index: 9999;
+}
+
+.review-container{
+    height: 85vh;
+    border-radius: 30px;
+    background-color: $primary-blue;
+    box-shadow: 
+    1px 1px 0 $dark-blue,
+    2px 2px 0 $dark-blue,
+    3px 3px 0 $dark-blue,
+    4px 4px 0 $dark-blue,
+    5px 5px 0 $dark-blue,
+    6px 6px 0 $dark-blue,
+    7px 7px 0 $dark-blue;
+}
+
+.question-container{
+    transition: .3s ease-in-out;
+    color: white;
+}
+
+.choice-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: .3s ease-in-out;
+    
+    border: 0;
+    color: white;
+    background-color: rgb(230, 130, 20);
+    border-radius: 20px;
+    box-shadow: 
+    1px 1px 0 darkolivegreen,
+    2px 2px 0 darkolivegreen,
+    3px 3px 0 darkolivegreen,
+    4px 4px 0 darkolivegreen,
+    5px 5px 0 darkolivegreen;
+}
+
+@include media-breakpoint-down(md){
+    .main-text-big{
+        font-size: 30px;
+    }
+
+    .question-container{
+        font-size: 16px !important;
+    }
+}
+
+@include media-breakpoint-down(sm){
+    .main-text-big{
+        font-size: 26px;
+    }
+
+    .main-text-sub{
+        font-size: 16px;
+    }
 }

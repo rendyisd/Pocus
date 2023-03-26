@@ -9,6 +9,12 @@
 @endsection
 
 @section('content')
+<a href="{{ route('flashcards.review', ['fc' => $flashcard->id]) }}" class="btn preview-btn btn-primary btn-lg position-fixed bottom-0 end-0 mb-4 me-4 px-4
+    @if($flashcard->flashcards_cards()->count() < 5) disabled @endif
+">
+    <i class="fa-solid fa-graduation-cap"></i>
+    <span class="fw-bold">Review</span>
+</a>
 <div class="container fc-card-container">
     <h1 class="text-center main-text-big mb-4 fs-1">
         {{ $flashcard->name }}

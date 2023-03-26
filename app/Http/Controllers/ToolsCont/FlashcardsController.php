@@ -176,4 +176,13 @@ class FlashcardsController extends Controller
             'success' => true
         ]);
     }
+
+    public function review()
+    {
+        $flashcardSetId = request('fc');
+        
+        $eachCards = FlashcardsCard::where('set_id', $flashcardSetId)->get();
+
+        return view('fc_views.flashcards_review', ['eachCards' => $eachCards]);
+    }
 }
